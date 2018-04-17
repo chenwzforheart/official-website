@@ -22,3 +22,4 @@
 hs_err_pid*
 
 .idea/*
+frontend/homepage/node_modules/*
