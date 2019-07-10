@@ -1,4 +1,4 @@
-package com.cwzsmile.distributed.id;
+package com.cwzsmile.distributed.es;
 
 /**
  * @author mc
