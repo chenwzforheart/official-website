@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
-import Carousel from '@/components/Carousel'
+import Api from '@/components/Api'
 
 Vue.use(Router)
 
@@ -13,9 +13,9 @@ export default new Router({
       component: HelloWorld
     },
     {
-      path: '/put',
-      name: 'Carousel',
-      component: Carousel
+      path: '/Api',
+      name: 'Api',
+      component: Api
     }
   ]
 })
