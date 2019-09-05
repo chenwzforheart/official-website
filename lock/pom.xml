@@ -57,6 +57,12 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.curator</groupId>
+			<artifactId>curator-recipes</artifactId>
+			<version>RELEASE</version>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
