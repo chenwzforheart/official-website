@@ -1,5 +1,6 @@
 package com.cwzsmile.distributed.quartz;
 
+import com.cwzsmile.distributed.quartz.one.HelloJob;
 import io.netty.util.NetUtil;
 import org.quartz.Job;
 import org.quartz.spi.JobFactory;
@@ -12,13 +13,11 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
-import org.springframework.scheduling.quartz.JobDetailFactoryBean;
-import org.springframework.scheduling.quartz.SchedulerFactoryBean;
-import org.springframework.scheduling.quartz.SpringBeanJobFactory;
+import org.springframework.scheduling.quartz.*;
 
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Properties;
 
 /**
@@ -28,7 +27,59 @@ import java.util.Properties;
 @Configuration
 public class QuartzConfig {
 
-    @Autowired
+    @Bean
+    public JobDetailFactoryBean jobDetail() {
+        JobDetailFactoryBean bean = new JobDetailFactoryBean();
+        bean.setJobClass(HelloJob.class);
+        HashMap<String, Object> map = new HashMap<>(1);
+        map.put("name", "Quartz");
+        bean.setJobDataAsMap(map);
+        return bean;
+    }
+
+    @Bean
+    public SimpleTriggerFactoryBean simpleTrigger() {
+        SimpleTriggerFactoryBean bean = new SimpleTriggerFactoryBean();
+        bean.setJobDetail(jobDetail().getObject());
+        bean.setStartDelay(0);
+        bean.setRepeatInterval(1000);
+        return bean;
+    }
+
+    @Bean
+    public CronTriggerFactoryBean cronTrigger() {
+        CronTriggerFactoryBean bean = new CronTriggerFactoryBean();
+        bean.setJobDetail(jobDetail().getObject());
+        bean.setCronExpression("0/10 * * * * ?");
+        return bean;
+    }
+
+    @Bean
+    public SchedulerFactoryBean myScheduler() {
+        SchedulerFactoryBean bean = new SchedulerFactoryBean();
+        bean.setTriggers(cronTrigger().getObject());
+        bean.setJobFactory(jobFactory());
+        return bean;
+    }
+
+    @Bean
+    public JobFactory jobFactory() {
+        return new JobFactory();
+    }
+
+    public static class JobFactory extends AdaptableJobFactory{
+        @Autowired
+        private AutowireCapableBeanFactory beanFactory;
+
+        @Override
+        protected Object createJobInstance(TriggerFiredBundle bundle) throws Exception {
+            Object jobInstance = super.createJobInstance(bundle);
+            beanFactory.autowireBean(jobInstance);
+            return jobInstance;
+        }
+    }
+
+    /*@Autowired
     private DataSource dataSource;
 
     //配置JobFactory
@@ -82,6 +133,6 @@ public class QuartzConfig {
             beanFactory.autowireBean(job);
             return job;
         }
-    }
+    }*/
 
 }
