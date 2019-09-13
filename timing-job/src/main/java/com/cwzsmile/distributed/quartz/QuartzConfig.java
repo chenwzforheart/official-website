@@ -1,6 +1,7 @@
 package com.cwzsmile.distributed.quartz;
 
 import com.cwzsmile.distributed.quartz.one.HelloJob;
+import com.cwzsmile.distributed.quartz.one.WorldJob;
 import io.netty.util.NetUtil;
 import org.quartz.Job;
 import org.quartz.spi.JobFactory;
@@ -27,6 +28,9 @@ import java.util.Properties;
 @Configuration
 public class QuartzConfig {
 
+    @Autowired
+    private DataSource dataSource;
+
     @Bean
     public JobDetailFactoryBean jobDetail() {
         JobDetailFactoryBean bean = new JobDetailFactoryBean();
@@ -34,6 +38,18 @@ public class QuartzConfig {
         HashMap<String, Object> map = new HashMap<>(1);
         map.put("name", "Quartz");
         bean.setJobDataAsMap(map);
+        bean.setDurability(true);
+        return bean;
+    }
+
+    @Bean
+    public JobDetailFactoryBean workDetail() {
+        JobDetailFactoryBean bean = new JobDetailFactoryBean();
+        bean.setJobClass(WorldJob.class);
+        HashMap<String, Object> map = new HashMap<>(1);
+        map.put("name", "Quartz");
+        bean.setJobDataAsMap(map);
+        bean.setDurability(true);
         return bean;
     }
 
@@ -55,10 +71,23 @@ public class QuartzConfig {
     }
 
     @Bean
+    public CronTriggerFactoryBean cron5Trigger() {
+        CronTriggerFactoryBean bean = new CronTriggerFactoryBean();
+        bean.setJobDetail(workDetail().getObject());
+        //todo cron表达式变更需要修改数据库，新增时代码里设置才管用
+        bean.setCronExpression("1/10 * * * * ?");
+        return bean;
+    }
+
+    @Bean
     public SchedulerFactoryBean myScheduler() {
         SchedulerFactoryBean bean = new SchedulerFactoryBean();
-        bean.setTriggers(cronTrigger().getObject());
+        bean.setTriggers(cronTrigger().getObject(),cron5Trigger().getObject());
         bean.setJobFactory(jobFactory());
+        //todo 这三行控制quartz集群模式
+        bean.setConfigLocation(new ClassPathResource("application.properties"));
+        bean.setDataSource(dataSource);
+        bean.setOverwriteExistingJobs(true);
         return bean;
     }
 
@@ -67,7 +96,7 @@ public class QuartzConfig {
         return new JobFactory();
     }
 
-    public static class JobFactory extends AdaptableJobFactory{
+    public static class JobFactory extends AdaptableJobFactory {
         @Autowired
         private AutowireCapableBeanFactory beanFactory;
 

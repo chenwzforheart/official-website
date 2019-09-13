@@ -177,3 +177,20 @@ CREATE INDEX IDX_QRTZ_FT_T_G ON QRTZ_FIRED_TRIGGERS(SCHED_NAME,TRIGGER_NAME,TRIG
 CREATE INDEX IDX_QRTZ_FT_TG ON QRTZ_FIRED_TRIGGERS(SCHED_NAME,TRIGGER_GROUP);
 
 commit;
+
+
+---------------------------------
+-- 清空定时数据
+---------------------------------
+truncate TABLE quartz.qrtz_blob_triggers;
+truncate TABLE quartz.qrtz_calendars;
+truncate TABLE quartz.qrtz_cron_triggers;
+truncate TABLE quartz.qrtz_fired_triggers;
+
+truncate TABLE quartz.qrtz_paused_trigger_grps;
+truncate TABLE quartz.qrtz_scheduler_state;
+truncate TABLE quartz.qrtz_simple_triggers;
+truncate TABLE quartz.qrtz_simprop_triggers;
+truncate TABLE quartz.qrtz_locks;
+delete from quartz.qrtz_triggers;
+delete from quartz.qrtz_job_details;
