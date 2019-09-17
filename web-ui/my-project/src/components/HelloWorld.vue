@@ -1,43 +1,82 @@
 <template>
   <div class="hello">
-    <HeadBox></HeadBox>
-    <Api></Api>
+    <h1>{{ msg }}</h1>
+    <h2>Essential Links</h2>
     <ul>
       <li>
-        <p>
-          &copy; 2019 - 2020 CwzSmile All Right Reserved.
-        </p>
-      </li>
-      <li>
         <a
-          href="/"
-          target="_self"
+          href="https://vuejs.org"
+          target="_blank"
         >
-          传播说明
+          Core Docs
         </a>
       </li>
       <li>
         <a
-          href="/"
-          target="_self"
+          href="https://forum.vuejs.org"
+          target="_blank"
         >
-          运营细则
+          Forum
         </a>
       </li>
       <li>
         <a
-          href="/"
-          target="_self"
+          href="https://chat.vuejs.org"
+          target="_blank"
         >
-          联系方式
+          Community Chat
         </a>
       </li>
       <li>
         <a
-          href="/"
-          target="_self"
+          href="https://twitter.com/vuejs"
+          target="_blank"
         >
-          投诉建议
+          Twitter
+        </a>
+      </li>
+      <br>
+      <li>
+        <a
+          href="http://vuejs-templates.github.io/webpack/"
+          target="_blank"
+        >
+          Docs for This Template
+        </a>
+      </li>
+    </ul>
+    <h2>Ecosystem</h2>
+    <ul>
+      <li>
+        <a
+          href="http://router.vuejs.org/"
+          target="_blank"
+        >
+          vue-router
+        </a>
+      </li>
+      <li>
+        <a
+          href="http://vuex.vuejs.org/"
+          target="_blank"
+        >
+          vuex
+        </a>
+      </li>
+      <li>
+        <a
+          href="http://vue-loader.vuejs.org/"
+          target="_blank"
+        >
+          vue-loader
+        </a>
+      </li>
+      <li>
+        <a
+          href="https://github.com/vuejs/awesome-vue"
+          target="_blank"
+        >
+          awesome-vue
         </a>
       </li>
     </ul>
@@ -45,17 +84,11 @@
 </template>
 
 <script>
-import HeadBox from './HeadBox'
-import Api from './Api.vue'
 export default {
   name: 'HelloWorld',
-  components: {
-    HeadBox,
-    Api
-  },
   data () {
     return {
-      msg: 'Welcome to Your Api world'
+      msg: 'Welcome to Your Vue.js App'
     }
   }
 }
@@ -75,7 +108,6 @@ li {
   margin: 0 10px;
 }
 a {
-  text-decoration: none;
-  color: #9e9f9f;
+  color: #42b983;
 }
 </style>
