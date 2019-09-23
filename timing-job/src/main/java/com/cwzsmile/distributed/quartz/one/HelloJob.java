@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 @Data
 @Slf4j
-public class HelloJob  implements Job {
+public class HelloJob implements Job {
 
     @Autowired
     private DemoService demoService;
@@ -23,8 +23,9 @@ public class HelloJob  implements Job {
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
+
         name = context.getJobDetail().getJobDataMap().getString("name");
         demoService.get();
-        log.info("Hello " + name);
+        log.info("Hello " + name + ">>>" + context.getScheduledFireTime());
     }
 }

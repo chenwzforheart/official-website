@@ -3,6 +3,7 @@ package com.cwzsmile.distributed.quartz;
 import com.cwzsmile.distributed.quartz.one.HelloJob;
 import com.cwzsmile.distributed.quartz.one.WorldJob;
 import io.netty.util.NetUtil;
+import org.quartz.CronTrigger;
 import org.quartz.Job;
 import org.quartz.spi.JobFactory;
 import org.quartz.spi.TriggerFiredBundle;
@@ -67,6 +68,7 @@ public class QuartzConfig {
         CronTriggerFactoryBean bean = new CronTriggerFactoryBean();
         bean.setJobDetail(jobDetail().getObject());
         bean.setCronExpression("0/10 * * * * ?");
+        bean.setMisfireInstruction(2);
         return bean;
     }
 
@@ -87,7 +89,7 @@ public class QuartzConfig {
         //todo 这三行控制quartz集群模式
         bean.setConfigLocation(new ClassPathResource("application.properties"));
         bean.setDataSource(dataSource);
-        bean.setOverwriteExistingJobs(true);
+        //bean.setOverwriteExistingJobs(true);
         return bean;
     }
 
