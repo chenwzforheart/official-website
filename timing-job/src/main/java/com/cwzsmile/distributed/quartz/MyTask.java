@@ -17,7 +17,6 @@ public class MyTask extends QuartzJobBean {
     @Autowired
     private DemoService demoService;
 
-    @Scheduled(cron = "5/0 * * * * * *")
     @Override
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
         demoService.get();

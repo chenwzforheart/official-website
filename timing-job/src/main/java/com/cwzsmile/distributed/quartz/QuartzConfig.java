@@ -26,7 +26,7 @@ import java.util.Properties;
  * @author csh9016
  * @date 2019/9/6
  */
-@Configuration
+//@Configuration
 public class QuartzConfig {
 
     @Autowired

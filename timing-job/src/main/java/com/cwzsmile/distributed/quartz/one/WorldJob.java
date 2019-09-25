@@ -25,6 +25,6 @@ public class WorldJob implements Job {
     public void execute(JobExecutionContext context) throws JobExecutionException {
         name = context.getJobDetail().getJobDataMap().getString("name");
         demoService.get();
-        log.info("Hello " + name);
+        log.info("World " + name + ">>>" + context.getScheduledFireTime());
     }
 }
