@@ -18,6 +18,7 @@
 		<module>elasticsearch</module>
 		<module>lock</module>
 		<module>timing-job</module>
+		<module>transaction</module>
 		<module>web-ui</module>
 	</modules>
 	<properties>
