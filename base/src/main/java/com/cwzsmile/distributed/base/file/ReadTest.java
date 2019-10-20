@@ -21,7 +21,7 @@ public class ReadTest {
     public void simpleRead() {
         BufferedWriter outReader = null;
         try {
-            Path out = Paths.get("D:\\\\opt\\\\levis\\\\223032.csv");
+            Path out = Paths.get("D:\\opt\\levis\\223032-7.csv");
             if (!Files.exists(out)) {
                 Files.createFile(out);
             }
@@ -30,6 +30,6 @@ public class ReadTest {
         }
         DemoAnalysisEventListener demoAnalysisEventListener = new DemoAnalysisEventListener();
         demoAnalysisEventListener.setBufferedWriter(outReader);
-        EasyExcel.read("D:\\opt\\levis\\223032.xlsx", Report.class, demoAnalysisEventListener).sheet().doRead();
+        EasyExcel.read("D:\\opt\\levis\\223032-7.xlsx", Report.class, demoAnalysisEventListener).sheet().doRead();
     }
 }

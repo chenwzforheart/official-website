@@ -1,7 +1,6 @@
 package com.cwzsmile.distributed.base.file;
 
 import com.alibaba.fastjson.JSON;
-import com.google.common.collect.ImmutableTable;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedWriter;
@@ -33,36 +32,43 @@ public class ExcelDemo {
                 if (now.getB().equals(ffList.getFirst().getB()) && now.getC().equals(ffList.getFirst().getC())) {
                     ffList.addLast(now);
                 } else {
-                    //判断是否是单独内容，需要分开写
-                    for (int i1 = 0; i1 < ffList.size(); i1++) {
-                        if ((ffList.get(i1).getD().startsWith("【") || ffList.get(i1).getD().startsWith("[")) && ffList.get(i1).getD().length() < 67) {
-                            outReader.write(String.format("\"%s\",\"%s\",\"%s\",\"%s\"", ffList.get(i1).getD(), 1, ffList.getFirst().getB(), ffList.getFirst().getC()));
-                            outReader.newLine();
-                            ffList.remove(i1);
-                        }
-                    }
-                    if (ffList.size() == 0) {
-                        continue;
-                    }
-                    sort1(ffList);
-                    outReader.write(String.format("\"%s\",\"%s\",\"%s\",\"%s\"", connect1(ffList), ffList.size(), ffList.getFirst().getB(), ffList.getFirst().getC()));
-                    outReader.newLine();
-                    outReader.flush();
-                    ffList.clear();
+
+                    print2File(ffList, outReader);
                     ffList.addLast(now);
                 }
             }
             //最后一行
-            sort1(ffList);
-            if (ffList.size() == 0) {
-                return;
-            }
-            outReader.write(String.format("\"%s\",\"%s\",\"%s\",\"%s\"", connect1(ffList), ffList.size(), ffList.getFirst().getB(), ffList.getFirst().getC()));
-            outReader.newLine();
-            outReader.flush();
+            print2File(ffList, outReader);
         } catch (IOException e) {
             log.error("保存报错", e);
         }
+    }
+
+    /**
+     * 判断是否是单独内容，需要分开写。短信数大于等于4条，判断合并
+     *
+     * @param reports
+     * @param bw
+     * @throws IOException
+     */
+    public static void print2File(LinkedList<Report> reports, BufferedWriter bw) throws IOException {
+        ArrayList<Report> base = new ArrayList<>(reports);
+        for (int j = 0; j < base.size(); j++) {
+            Report temp = base.get(j);
+            if ((temp.getD().startsWith("【") || temp.getD().startsWith("[")) && temp.getD().length() < 67) {
+                bw.write(String.format("\"%s\",\"%s\",\"%s\",\"%s\"", temp.getD(), 1, temp.getB(), temp.getC()));
+                bw.newLine();
+                reports.remove(temp);
+            }
+        }
+
+        if (reports.size() != 0) {
+            sort1(reports);
+            bw.write(String.format("\"%s\",\"%s\",\"%s\",\"%s\"", connect1(reports), reports.size(), reports.getFirst().getB(), reports.getFirst().getC()));
+            bw.newLine();
+            reports.clear();
+        }
+        bw.flush();
     }
 
     public static void main(String[] args) {
@@ -124,18 +130,22 @@ public class ExcelDemo {
     }
 
     public static void sort1(LinkedList<Report> aa) {
-        for (int i = 0; i < aa.size(); i++) {
-            Report now = aa.get(i);
+        ArrayList<Report> copy = new ArrayList<>(aa);
+        for (int i = 0; i < copy.size(); i++) {
+            Report now = copy.get(i);
             if (now.getD().startsWith("【") || now.getD().startsWith("[")) {
                 aa.remove(now);
                 aa.addFirst(now);
+                continue;
             }
             if (now.getD().length() < 67) {
                 aa.remove(now);
                 aa.addLast(now);
+                continue;
             }
         }
     }
+
 
     public static String connect(LinkedList<List<String>> aa) {
         return aa.stream().map(t -> t.get(3)).reduce(String::concat).get();
