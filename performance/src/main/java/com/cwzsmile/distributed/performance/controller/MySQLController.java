@@ -36,7 +36,7 @@ public class MySQLController {
         stopWatch.start("1.准备数据");
         SmsRequestDtl detail = null;
         List<SmsRequestDtl> list = new ArrayList<>();
-        int taskCount = 1000;
+        int taskCount = 10000;
         for (int i = 0; i < taskCount; i++) {
             detail = new SmsRequestDtl();
             detail.setSmsRequestId(UUID.randomUUID().toString());
