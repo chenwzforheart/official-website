@@ -1,57 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.cwzsmile.distributed</groupId>
-		<artifactId>distributed-parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
-	<artifactId>script</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>script</name>
-	<description>Demo project for Spring Boot</description>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.cwzsmile.distributed</groupId>
+        <artifactId>distributed-parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <artifactId>script</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>script</name>
+    <description>Demo project for Spring Boot</description>
 
-	<properties>
-		<java.version>1.8</java.version>
-	</properties>
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
 
-	<dependencies>
+    <dependencies>
 
-		<dependency>
-			<groupId>org.drools</groupId>
-			<artifactId>drools-core</artifactId>
-			<version>6.5.0.Final</version>
-		</dependency>
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-core</artifactId>
+            <version>6.5.0.Final</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.drools</groupId>
-			<artifactId>drools-compiler</artifactId>
-			<version>6.5.0.Final</version>
-		</dependency>
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-compiler</artifactId>
+            <version>6.5.0.Final</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.kie</groupId>
-			<artifactId>kie-api</artifactId>
-			<version>6.5.0.Final</version>
-		</dependency>
+        <dependency>
+            <groupId>org.kie</groupId>
+            <artifactId>kie-api</artifactId>
+            <version>6.5.0.Final</version>
+        </dependency>
 
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>18.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>1.8.1</version>
+            <scope>compile</scope>
+        </dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>18.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
 
-	</dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
 
+        <dependency>
+            <groupId>org.spockframework</groupId>
+            <artifactId>spock-core</artifactId>
+            <version>0.6-groovy-1.8</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.gmaven</groupId>
+                <artifactId>groovy-maven-plugin</artifactId>
+                <version>2.0</version>
+                <configuration>
+                    <source>
+                        println 'i can run groovy within maven!'
+                    </source>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.spockframework</groupId>
+                <artifactId>spock-maven</artifactId>
+                <version>0.7-groovy-1.8</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>find-specs</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
