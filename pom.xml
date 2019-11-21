@@ -23,6 +23,7 @@
 		<module>validation</module>
 		<module>performance</module>
 		<module>script</module>
+		<module>gateway</module>
 	</modules>
 	<properties>
 		<java.version>1.8</java.version>
