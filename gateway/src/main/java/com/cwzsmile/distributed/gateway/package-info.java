@@ -7,7 +7,8 @@
  * (1.2)SpringCloud
  * (2.1)SOFA Mesh
  * 网关技术(网关应用 + 配置元数据)：认证鉴权，协议转换，流量控制，灰度发布
- * (1.1)Soul
+ * 网关变体：服务前端的后端（BFF模式）
+ * (1.1)Soul(https://github.com/Dromara/soul)
  * (1.2)Zuul(弃用),Gateway
  * (2.1)
  * 推荐实践方案：
