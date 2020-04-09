@@ -26,16 +26,16 @@ import java.util.concurrent.Executors;
 public class Test {
 
     public static void main(String[] args) {
-        final String url = "http://hippo.baozun.com/backend/api/sqlOptimization/execute/sql?databaseSchemaid=2626&code=6u2vd5";
+        final String url = "http://hippo.cwz.com/backend/api/sqlOptimization/execute/sql?databaseSchemaid=2626&code=6u2vd5";
 
-        String header = "Host: hippo.baozun.com\n" +
+        String header = "Host: hippo.cwz.com\n" +
                 "Connection: keep-alive\n" +
                 "Content-Length: 147\n" +
                 "Accept: application/json, text/plain, */*\n" +
                 "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3941.4 Safari/537.36\n" +
                 "Content-Type: text/plain;charset=UTF-8\n" +
-                "Origin: http://hippo.baozun.com\n" +
-                "Referer: http://hippo.baozun.com/\n" +
+                "Origin: http://hippo.cwz.com\n" +
+                "Referer: http://hippo.cwz.com/\n" +
                 "Accept-Encoding: gzip, deflate\n" +
                 "Accept-Language: zh-CN,zh;q=0.9,en;q=0.8\n" +
                 "Cookie: s_nr=1578970086615-New; AMCV_9E1005A551ED61CA0A490D45%40AdobeOrg=1585540135%7CMCMID%7C06391800604438846931300746062890698815%7CMCAAMLH-1579574916%7C11%7CMCAAMB-1579574916%7CRKhpRz8krg2tLO6pguXWp5olkAcUniQYPHaMWWgdJ3xzPWQmdj0y%7CMCOPTOUT-1578977317s%7CNONE%7CMCAID%7CNONE%7CMCCIDH%7C-906997846%7CvVersion%7C4.4.0; Hm_lvt_977549620e7343d16692268282cad421=1584063531; _ga=GA1.2.2003662489.1584063532; JSESSIONID=88CDA82750F35ACE2AA983C3CBE5C453";
