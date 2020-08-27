@@ -15,3 +15,13 @@ public class DbResponse<T> {
     private String msg;
     private List<T> data;
 }
+
+@Data
+class DataResult{
+    private List<List<String>> data;
+    private String sql;
+    private int sshTime;
+    private int connTime;
+    private int exeTime;
+    private int dataConstructionTime;
+}

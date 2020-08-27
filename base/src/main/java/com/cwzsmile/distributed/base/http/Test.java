@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import com.google.common.io.Files;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -32,9 +33,9 @@ public class Test {
                 "Accept-Encoding: gzip, deflate\n" +
                 "Accept-Language: zh-CN,zh;q=0.9,en;q=0.8\n" +
                 "Connection: keep-alive\n" +
-                "Content-Length: 7\n" +
+                "Content-Length: 44\n" +
                 "Content-Type: text/plain;charset=UTF-8\n" +
-                "Cookie: s_nr=1578970086615-New; AMCV_9E1005A551ED61CA0A490D45%40AdobeOrg=1585540135%7CMCMID%7C06391800604438846931300746062890698815%7CMCAAMLH-1579574916%7C11%7CMCAAMB-1579574916%7CRKhpRz8krg2tLO6pguXWp5olkAcUniQYPHaMWWgdJ3xzPWQmdj0y%7CMCOPTOUT-1578977317s%7CNONE%7CMCAID%7CNONE%7CMCCIDH%7C-906997846%7CvVersion%7C4.4.0; Hm_lvt_977549620e7343d16692268282cad421=1584063531; _ga=GA1.2.2003662489.1584063532; experimentation_subject_id=ImU4ODZiZDNhLWRhMWUtNDYxMC1hMDkzLTU0YzU2NDhiNzg3YSI%3D--78ed960c31c45856e979940f27cf57a9f1e60dc1; JSESSIONID=9372FFF24CE2F4529449BCD11574EF39\n" +
+                "Cookie: experimentation_subject_id=Ijk4MTFkM2U0LWVhMjYtNDZhOS1hY2M4LWNmMmZhN2RkZTIwMiI%3D--033cc1b53ad5ffc16b27f5edb0b175416aa4e075; JSESSIONID=5623A3FF9598F13388536F2C6652E498\n" +
                 "Host: hippo.baozun.com\n" +
                 "Origin: http://hippo.baozun.com\n" +
                 "Referer: http://hippo.baozun.com/\n" +
@@ -51,15 +52,15 @@ public class Test {
         //存入数据库
         // 创建表的SQL语句
         BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setUrl("jdbc:mysql://127.0.0.1:3306/net_openapi?characterEncoding=UTF-8&amp;useSSL=false");
+        dataSource.setUrl("jdbc:mysql://127.0.0.1:3306/net_openapi?characterEncoding=UTF-8&useSSL=false");
         dataSource.setUsername("root");
         dataSource.setPassword("root");
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
-        for (int i = 1; i <= 31; i++) {
-            System.out.println(String.format("201908%02d", i));
-            dayWork(url, requestHeaders, jdbcTemplate, String.format("201908%02d", i));
+        for (int i = 30; i <= 31; i++) {
+            System.out.println(String.format("2006%02d", i));
+            dayWork(url, requestHeaders, jdbcTemplate,i);
         }
     }
 
@@ -72,24 +73,26 @@ public class Test {
         }
     }
 
-    public static void dayWork(String url, HttpHeaders requestHeaders, JdbcTemplate jdbc, String day) {
-        String sql = String.format("select a.body,a.create_time,b.reciver from sms_send_log_%s a\n" +
-                "left join sms_send_reciver_log_%s b on b.ssl_id = a.id where a.customer_id =44;", day, day);
+    public static void dayWork(String url, HttpHeaders requestHeaders, JdbcTemplate jdbc, int day) {
+        String sql = String.format("select sub_port,signature,sum(count_content * count_customer) ,sum(count_customer) dd\n" +
+                        "from t_msg_sms_request_dtl_202006\n" +
+                        "where sms_request_id >= '%s'  and sms_request_id < '%s' and sms_request_id!= 'N/A' \n" +
+                        " GROUP BY sub_port,signature ",
+                String.format("2006%02d", day),
+                String.format("2006%02d", day+1));
 
-        String insert = "insert into sms_detail(content,mobile,create_time,length) values ";
+        //System.out.println(sql);
+        String insert = "insert into tongji(day,sub_port,signature,total,person) values ";
         HttpEntity<String> requestEntity = new HttpEntity<String>(sql, requestHeaders);
-        DbResponse<List<String>> body = RestClient.client().exchange(url, HttpMethod.POST, requestEntity, DbResponse.class).getBody();
+        DbResponse<DataResult> body = RestClient.client().exchange(url, HttpMethod.POST, requestEntity,
+                new ParameterizedTypeReference<DbResponse<DataResult>>() {} ).getBody();
 
-        if (body.getData().size() == 1) {
-            System.out.println(day + "无数据");
-            return;
-        }
 
-        Lists.partition(body.getData(), 100).forEach(s -> {
+        Lists.partition(body.getData().get(0).getData(), 100).forEach(s -> {
             StringBuilder insertList = new StringBuilder();
             s.forEach(ss -> {
-                if (!"a.body".equals(ss.get(0))) {
-                    insertList.append(String.format("('%s','%s','%s',%d)", ss.get(0), ss.get(2), ss.get(1), countMessageLength(ss.get(0))));
+                if (!"sub_port".equals(ss.get(0))) {
+                    insertList.append(String.format("('%s','%s','%s','%s','%s')",String.format("2006%02d", day), ss.get(0), ss.get(1), ss.get(2), ss.get(3)));
                     insertList.append(",");
                 }
             });

@@ -17,12 +17,12 @@ import java.util.regex.Pattern;
  */
 public class CsvUtil {
 
-    public static final String path = "D:\\opt";
+    public static final String path = "C:\\Users\\wenzheng.chen\\Desktop\\nike";
     static Pattern compile = Pattern.compile("(订单|退换货|要求|收据号)([0-9a-zA-Z]{4,})");
 
     public static void main(String[] args) throws IOException {
-        Path in = Paths.get(CsvUtil.path + "/223013-1.csv");
-        Path out = Paths.get(CsvUtil.path + "/223013-1-1.csv");
+        Path in = Paths.get(CsvUtil.path + "/5035-7.csv");
+        Path out = Paths.get(CsvUtil.path + "/5035-7-1.csv");
         if (!Files.exists(in)) {
             Files.createFile(out);
         }
