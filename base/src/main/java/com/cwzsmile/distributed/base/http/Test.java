@@ -36,9 +36,9 @@ public class Test {
                 "Content-Length: 44\n" +
                 "Content-Type: text/plain;charset=UTF-8\n" +
                 "Cookie: experimentation_subject_id=Ijk4MTFkM2U0LWVhMjYtNDZhOS1hY2M4LWNmMmZhN2RkZTIwMiI%3D--033cc1b53ad5ffc16b27f5edb0b175416aa4e075; JSESSIONID=5623A3FF9598F13388536F2C6652E498\n" +
-                "Host: hippo.baozun.com\n" +
-                "Origin: http://hippo.baozun.com\n" +
-                "Referer: http://hippo.baozun.com/\n" +
+                "Host: hippo.cwz.com.com\n" +
+                "Origin: http://hippo.cwz.com.com\n" +
+                "Referer: http://hippo.cwz.com.com/\n" +
                 "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3941.4 Safari/537.36";
         HttpHeaders requestHeaders = new HttpHeaders();
         Splitter.on("\n")

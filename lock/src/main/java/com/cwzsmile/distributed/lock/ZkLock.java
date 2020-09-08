@@ -26,7 +26,7 @@ public class ZkLock {
     }
 
     public void getLock() {
-        String zkUrl = "zookeeper01.scm.test.baozun.cn:2181,zookeeper02.scm.test.baozun.cn:2181,zookeeper03.scm.test.baozun.cn:2181";
+        String zkUrl = "zookeeper01.scm.test.cwz.com.cn:2181,zookeeper02.scm.test.cwz.com.cn:2181,zookeeper03.scm.test.cwz.com.cn:2181";
         ExponentialBackoffRetry retryPolicy = new ExponentialBackoffRetry(1000, 3);
         CuratorFramework client = CuratorFrameworkFactory.newClient(zkUrl, retryPolicy);
         client.start();
