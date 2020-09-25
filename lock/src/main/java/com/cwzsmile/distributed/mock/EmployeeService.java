@@ -15,6 +15,10 @@ public class EmployeeService {
         this.employeeDao = employeeDao;
     }
 
+    public String findEmailByUserName(String username) {
+        throw new UnsupportedOperationException();
+    }
+
     public int getTotalEmployee() {
         return employeeDao.getTotal();
     }
@@ -29,8 +33,17 @@ public class EmployeeService {
     }
 
 
-    public void crateEmployee(Employee employee) {
+    public void createEmployee(Employee employee) {
         employeeDao.addEmployee(employee);
+    }
+
+    public void createEmployeeFinal(Employee employee) {
+        employeeDao.insertEmployee(employee);
+    }
+
+    public void createEmployeeFinalCons(Employee employee) {
+        EmployeeDao employeeDao = new EmployeeDao(false,EmployeeDao.Dialect.MYSQL);
+        employeeDao.insertEmployee(employee);
     }
 
     public void crateEmployeeNest(Employee employee) {

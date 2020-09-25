@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
  * @date 2020/9/24
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(EmployeeService.class)
+@PrepareForTest({EmployeeService.class,EmployeeDao.class})
 //@PrepareForTest(EmployeeUtils.class)
 public class EmployeeServiceTest {
 
@@ -167,5 +167,30 @@ public class EmployeeServiceTest {
             e.printStackTrace();
             fail();
         }
+    }
+
+    @Test
+    public void createEmployeeFinal() {
+        EmployeeDao employeeDao = PowerMockito.mock(EmployeeDao.class);
+        Employee employee = new Employee();
+        PowerMockito.when(employeeDao.insertEmployee(employee)).thenReturn(true);
+        EmployeeService employeeService = new EmployeeService(employeeDao);
+        employeeService.createEmployeeFinal(employee);
+
+        Mockito.verify(employeeDao).insertEmployee(employee);
+    }
+
+    @Test
+    public void createEmployeeFinalCons() {
+        EmployeeDao employeeDao = PowerMockito.mock(EmployeeDao.class);
+        try {
+            PowerMockito.whenNew(EmployeeDao.class).withArguments(false, EmployeeDao.Dialect.MYSQL).thenReturn(employeeDao);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        EmployeeService employeeService = new EmployeeService();
+        Employee employee = new Employee();
+        employeeService.createEmployeeFinalCons(employee);
+        Mockito.verify(employeeDao).insertEmployee(employee);
     }
 }

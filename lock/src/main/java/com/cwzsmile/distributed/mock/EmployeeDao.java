@@ -4,7 +4,18 @@ package com.cwzsmile.distributed.mock;
  * @author csh9016
  * @date 2020/9/24
  */
-public class EmployeeDao {
+public final class EmployeeDao {
+
+    public enum Dialect{
+        MYSQL,ORACLE
+    }
+
+    public EmployeeDao() {
+    }
+
+    public EmployeeDao(boolean lazy,Dialect dialect) {
+        throw new UnsupportedOperationException();
+    }
 
     public int getTotal() {
         throw new UnsupportedOperationException();
@@ -23,6 +34,10 @@ public class EmployeeDao {
     }
 
     public long getCount(Employee employee) {
+        throw new UnsupportedOperationException();
+    }
+
+    public boolean insertEmployee(Employee employee) {
         throw new UnsupportedOperationException();
     }
 }
