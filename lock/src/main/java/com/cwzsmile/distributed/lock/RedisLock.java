@@ -16,7 +16,26 @@ public class RedisLock {
 
     private RedisTemplate<String, String> redisTemplate;
 
-    private Redisson redisson;
+    private static Redisson redisson;
+
+    public static void main(String[] args) {
+        RLock lock = redisson.getLock("TestLock");
+        try {
+            if (lock.tryLock(300, 30, TimeUnit.MILLISECONDS)) {
+                try {
+                    //执行业务逻辑
+                    TimeUnit.SECONDS.sleep(2);
+                } finally {
+                    lock.unlock();
+                }
+
+            }else {
+                //未获取锁
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * setNX做分布式锁，获取锁
