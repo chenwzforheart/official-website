@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ZookeeperConf {
 
-    @Value("${zk.url}")
+    @Value("${zk.url:localhost:2181}")
     private String zkUrl;
 
     @Bean
