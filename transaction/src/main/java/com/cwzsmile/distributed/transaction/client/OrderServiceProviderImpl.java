@@ -1,5 +1,7 @@
 package com.cwzsmile.distributed.transaction.client;
 
+import org.springframework.stereotype.Service;
+
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -8,6 +10,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author csh9016
  * @date 2021/2/4
  */
+@Service
 public class OrderServiceProviderImpl implements IOrderServiceProvider{
 
     private AtomicInteger orderIdCounter=new AtomicInteger(0);
